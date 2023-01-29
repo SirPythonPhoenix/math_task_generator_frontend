@@ -80,7 +80,6 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
@@ -183,11 +182,10 @@ hr {
 }
 
 .task {
-  margin: auto;
+  margin: auto auto 100px;
   background-color: white;
   max-width: 50%;
-  box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.2);
-  margin-bottom: 100px;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
 }
 
 .task-head {
