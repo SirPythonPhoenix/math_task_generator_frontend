@@ -76,7 +76,7 @@ export default {
       this.tasks = []
       for (let i=1; i<=this.number; i++) {
         const response = await fetch(
-            "http://127.0.0.1:8000/generate/function",
+            "http://rdm.spdns.de:25566/generate/function",
             {
               method: 'POST',
               headers: {
