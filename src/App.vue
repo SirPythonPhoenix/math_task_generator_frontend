@@ -1,77 +1,39 @@
 <template>
   <div class="page">
 
-    <div class="task">
+    <div class="task-root" v-for="task in tasks" v-bind:key="task">
      <div class="task-head">
-      AUFGABE 1
+      AUFGABE {{ task.number }}
      </div>
      <div class="task-body">
-      f(x)= 2x-2
+       {{ task["task"] }}
      </div>
-    </div>  
+    </div>
 
-    <div class="task">
-     <div class="task-head">
-      AUFGABE 2
-     </div>
-     <div class="task-body">
-      f(x)= 2x-2
-     </div>
-    </div>  
+    <p v-if="tasksEmpty">Hier befinden sich noch keine Aufgaben.</p>
 
-    <div class="task">
-     <div class="task-head">
-      AUFGABE 3
-     </div>
-     <div class="task-body">
-      f(x)= 2x-2
-     </div>
-    </div>  
-
-    <div class="task">
-     <div class="task-head">
-      AUFGABE 3
-     </div>
-     <div class="task-body">
-      f(x)= 2x-2
-     </div>
-    </div>  
-
-    <div class="task">
-     <div class="task-head">
-      AUFGABE 3
-     </div>
-     <div class="task-body">
-      f(x)= 2x-2
-     </div>
-    </div>  
-
-    <div class="footer">
-      <label class="x">&#10005;</label>
+    <div class="footer" v-if="footer_visible">
+      <label class="x" v-on:click="toggleFooter">&#10005;</label>
       <div class="settings-head">
-        <button class="button2">Einstellungen &#9660;</button>
-        <button class="button1">Aufgaben generieren</button>
+        <button class="button2" v-on:click="toggleSettings">Einstellungen {{ settings_visible ? "&#9660;" : "&#9650;" }}</button>
+        <button class="button1" v-on:click="generateTasks">Aufgaben generieren</button>
       </div>
       <br>
-      <div class="settings-body">
+      <div class="settings-body" v-if="settings_visible">
         <p>Anzahl generierter Aufgaben:
-          <input class="small-input" type="number" max="99" min="1" value="5">
-        </p>
-        <hr>
-        <p>Schwierigkeit:
-          <input>
+          <input class="small-input" type="number" max="10" min="1" v-model="number">
         </p>
         <hr>
         <p>Grad der Funktion:
-          <input class="small-input" type="number" max="9" min="1" value="1">
+          <input class="small-input" type="number" v-bind:max="settings.grade_max" min="1" v-model="settings['grade_min']">
           bis
-          <input class="small-input" type="number" max="9" min="1" value="3">
+          <input class="small-input" type="number" max="9" v-bind:min="settings.grade_min" v-model="settings['grade_max']">
         </p>
         <hr>
         <p>Parameter-Wertebereich:
-          <input class="medium-input" type="number" max="999" min="0" value="0">
+          <input class="medium-input" type="number" v-bind:max="settings.param_max" v-model="settings['param_min']">
           bis
-          <input class="medium-input" type="number" max="999" min="0" value="20">
+          <input class="medium-input" type="number" v-bind:min="settings.param_min" v-model="settings['param_max']">
         </p>
       </div>
     </div>
@@ -83,7 +45,52 @@
 
 export default {
   name: 'App',
-  components: {}
+  components: {},
+  data() {
+    return {
+      tasks: [],
+      settings_visible: true,
+      footer_visible: true,
+      number: 3,
+      settings: {
+        grade_min: 2,
+        grade_max: 3,
+        param_min: -4,
+        param_max: 5,
+      }
+    }
+  },
+  computed: {
+    tasksEmpty() {
+      return this.tasks.length === 0
+    }
+  },
+  methods: {
+    toggleSettings() {
+      this.settings_visible = !this.settings_visible
+    },
+    toggleFooter() {
+      this.footer_visible = !this.footer_visible
+    },
+    async generateTasks() {
+      this.tasks = []
+      for (let i=1; i<=this.number; i++) {
+        const response = await fetch(
+            "http://127.0.0.1:8000/generate/function",
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+              },
+              body: JSON.stringify(this.settings)
+            },
+        )
+        let new_task = await response.json()
+        new_task["number"] = i
+        this.tasks.push(new_task)
+      }
+    }
+  }
 }
 </script>
 
@@ -181,7 +188,7 @@ hr {
   text-align: left;
 }
 
-.task {
+.task-root {
   margin: auto auto 100px;
   background-color: white;
   max-width: 50%;
@@ -197,7 +204,7 @@ hr {
 }
 
 .task-body {
-  padding: 40px 20px;
+  padding: 40px 120px;
 }
 
 .x {
