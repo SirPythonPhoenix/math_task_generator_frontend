@@ -231,7 +231,7 @@ hr {
   height: 60%;
   box-shadow: 0 -8px 10px rgba(0, 0, 0, 0.15);
   position: fixed;
-  top: 60%;
+  top: 56%;
   overflow: auto;
   z-index: 10;
 }
