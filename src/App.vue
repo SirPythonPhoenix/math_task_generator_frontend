@@ -2,15 +2,26 @@
   <div class="page">
 
     <div class="task-root" v-for="task in tasks" v-bind:key="task">
-     <div class="task-head">
+      <div class="task-head">
       AUFGABE {{ task.number }}
-     </div>
-     <div class="task-body">
+      </div>
+      <div class="task-body">
        {{ task["task"] }}
-     </div>
+
+       <br>
+       <br>
+       <hr>
+       <p class="solution-text">
+       LÖSUNG
+       </p>
+       bla bla Lösung bla
+      </div>
+      <div class="button3-div">
+        <button class="button3">Lösung anzeigen</button>
+      </div>
     </div>
 
-    <p v-if="tasksEmpty">Hier befinden sich noch keine Aufgaben.</p>
+    <p v-if="tasksEmpty">Hier befinden sich noch keine Aufgaben :P</p>
 
     <div class="footer" v-if="footer_visible">
       <label class="x" v-on:click="toggleFooter">&#10005;</label>
@@ -35,7 +46,7 @@
           bis
           <input class="medium-input" type="number" v-bind:min="settings.param_min" v-model="settings['param_max']">
         </p>
-        <
+        <br>
       </div>
     </div>
 
@@ -123,6 +134,17 @@ hr {
   width: 65px;
 }
 
+.solution-text {
+  color:#8990ab;
+  margin-top: -14px;
+  font-size:small;
+  letter-spacing: 2px;
+}
+
+.button3-div {
+  text-align: right;
+}
+
 .button1 {
   background-color:#7286D3;
   border-color:#7286D3;
@@ -130,7 +152,8 @@ hr {
   color: white;
   border-radius: 40px;
   font-weight: bold;
-  padding: 15px 80px;
+  padding: 15px 0;
+  width: 340px;
   font-size:larger;
   margin: 20px 50px;
   transition: color 0.2s, background-color 0.2s, border-color 0.2s;
@@ -141,6 +164,10 @@ hr {
   border-color: #5e6ead;
 }
 
+.button1:active {
+  opacity: 0.8;
+}
+
 .button2 {
   background-color: rgba(0, 0, 0, 0);
   border-color: #7286D3;
@@ -149,14 +176,11 @@ hr {
   color:#7286D3;
   border-radius: 40px;
   font-weight: bold;
-  padding: 15px 80px;
+  padding: 15px 0;
+  width: 340px;
   font-size:larger;
   margin: 20px 50px;
   transition: color 0.2s, background-color 0.2s, border-color 0.2s;
-}
-
-.button1:active {
-  opacity: 0.8;
 }
 
 .button2:hover {
@@ -166,6 +190,27 @@ hr {
 }
 
 .button2:active {
+  opacity: 0.8;
+}
+
+.button3 {
+  background-color: #74b386;
+  border-color:#74b386;
+  border-style: solid;
+  color: white;
+  border-radius: 10px;
+  font-weight: bold;
+  padding: 10px 20px;
+  margin: 0 20px 20px 0;
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+}
+
+.button3:hover {
+  background-color: #57a16c;
+  border-color: #57a16c;
+}
+
+.button3:active {
   opacity: 0.8;
 }
 
@@ -179,7 +224,7 @@ hr {
 
 .settings-head {
   margin: auto;
-  max-width: 50%;
+  max-width: 75%;
   text-align: center;
 }
 
@@ -192,7 +237,8 @@ hr {
 .task-root {
   margin: auto auto 100px;
   background-color: white;
-  max-width: 50%;
+  width: 800px;
+  max-width: 80%;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
 }
 
@@ -205,7 +251,8 @@ hr {
 }
 
 .task-body {
-  padding: 40px 120px;
+  padding: 40px 10%;
+  text-align: left;
 }
 
 .x {
