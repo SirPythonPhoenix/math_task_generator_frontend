@@ -8,14 +8,15 @@
       AUFGABE {{ task.number }}
       </div>
       <div class="task-body">
-       {{ task["task"] }}
-       <br>
-       <br>
-       <hr>
-       <p class="solution-text">
-       LÖSUNG
-       </p>
-       bla bla Lösung bla
+        {{ task["task"] }}
+        <div v-if="task.show_solution">
+          <br>
+          <hr>
+          <p class="solution-text">
+            LÖSUNG
+          </p>
+          {{ task["function_solved"] }}
+        </div>
       </div>
       <div class="button3-div">
         <button class="button3">Lösung anzeigen</button>
@@ -47,11 +48,6 @@
         <input class="medium-input" type="number" v-bind:max="settings.param_max" v-model="settings['param_min']">
         bis
         <input class="medium-input" type="number" v-bind:min="settings.param_min" v-model="settings['param_max']">
-      </p>
-      <hr>
-      <p>Ausschweifen des Grafen minimieren:
-        <label class="checkbox">☐</label>
-        <label class="checkbox">☑</label>
       </p>
       <br>
     </div>
@@ -267,11 +263,6 @@ hr {
 .task-body {
   padding: 40px 10%;
   text-align: left;
-}
-
-.checkbox {
-  font-size: xx-large;
-  font-weight:lighter;
 }
 
 .error-no-tasks {
