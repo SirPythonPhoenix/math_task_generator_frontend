@@ -2,7 +2,6 @@
   <div class="page">
 
     <p  class="error-no-tasks" v-if="tasksEmpty"><br><br>Hier befinden sich noch keine Aufgaben ...</p>
-
     <div class="task-root" v-for="task in tasks" v-bind:key="task">
       <div class="task-head">
       AUFGABE {{ task.number }}
@@ -50,11 +49,10 @@
         <input class="medium-input" type="number" v-bind:min="settings.param_min" v-model="settings['param_max']">
       </p>
       <hr>
-      <p>Ausschweifen des Grafen minimieren:
-        <label class="checkbox not-clickable" v-on:click="settings.parameter_lowering = !settings.parameter_lowering">
-          {{ settings.parameter_lowering ? "☑" : "☐" }}
-        </label>
-      </p>
+      <div class="checkbox not-clickable" v-on:click="settings.parameter_lowering = !settings.parameter_lowering">
+      </div>
+      <label>Ausschweifen des Grafen minimieren: </label>
+      <input v-model="settings.parameter_lowering" type="checkbox" name="vehicle1">
       <br>
     </div>
   </div>
@@ -64,7 +62,6 @@
 <script>
 export default {
   name: 'App',
-  components: {},
   data() {
     return {
       tasks: [],
