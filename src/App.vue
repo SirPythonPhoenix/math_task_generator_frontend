@@ -96,7 +96,7 @@ export default {
       this.tasks = []
       for (let i=1; i<=this.number; i++) {
         const response = await fetch(
-            "http://localhost:25567/generate/function",
+            "http://rdm.spdns.de:25567/generate/function",
             {
               method: 'POST',
               headers: {
