@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="button3-div">
-        <button class="button3">Lösung anzeigen</button>
+        <button class="button3" v-on:click="task.show_solution = !task.show_solution">{{ task.show_solution ? "Lösung verstecken" : "Lösung anzeigen" }}</button>
       </div>
     </div>
 
@@ -49,6 +49,12 @@
         bis
         <input class="medium-input" type="number" v-bind:min="settings.param_min" v-model="settings['param_max']">
       </p>
+      <hr>
+      <p>Ausschweifen des Grafen minimieren:
+        <label class="checkbox not-clickable" v-on:click="settings.parameter_lowering = !settings.parameter_lowering">
+          {{ settings.parameter_lowering ? "☑" : "☐" }}
+        </label>
+      </p>
       <br>
     </div>
   </div>
@@ -56,7 +62,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
   components: {},
@@ -71,6 +76,7 @@ export default {
         grade_max: 3,
         param_min: -4,
         param_max: 5,
+        parameter_lowering: false
       }
     }
   },
@@ -90,7 +96,7 @@ export default {
       this.tasks = []
       for (let i=1; i<=this.number; i++) {
         const response = await fetch(
-            "http://rdm.spdns.de:25567/generate/function",
+            "http://localhost:25567/generate/function",
             {
               method: 'POST',
               headers: {
@@ -101,6 +107,7 @@ export default {
         )
         let new_task = await response.json()
         new_task["number"] = i
+        new_task["show_solution"] = false
         this.tasks.push(new_task)
       }
     }
@@ -265,6 +272,11 @@ hr {
   text-align: left;
 }
 
+.checkbox {
+  font-size: xx-large;
+  font-weight:lighter;
+}
+
 .error-no-tasks {
   color:#8990ab;
 }
@@ -273,6 +285,10 @@ hr {
   float:right;
   margin: 28px 40px;
   font-size: xx-large;
+  cursor: pointer;
+}
+
+.not-clickable {
   cursor: pointer;
 }
 
