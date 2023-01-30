@@ -39,9 +39,9 @@
       </p>
       <hr>
       <p>Grad der Funktion:
-        <input class="small-input" type="number" v-bind:max="settings.grade_max" min="1" max="9" v-model="settings['grade_min']">
+        <input class="small-input" type="number" v-bind:max="settings.grade_max" min="1" v-model="settings['grade_min']">
         bis
-        <input class="small-input" type="number" min="1" max="9" v-bind:min="settings.grade_min" v-model="settings['grade_max']">
+        <input class="small-input" type="number" max="9" v-bind:min="settings.grade_min" v-model="settings['grade_max']">
       </p>
       <hr>
       <p>Parameter-Wertebereich:
