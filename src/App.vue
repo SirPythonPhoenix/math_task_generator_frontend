@@ -1,6 +1,8 @@
 <template>
   <div class="page">
 
+    <p  class="error-no-tasks" v-if="tasksEmpty"><br><br>Hier befinden sich noch keine Aufgaben ...</p>
+
     <div class="task-root" v-for="task in tasks" v-bind:key="task">
       <div class="task-head">
       AUFGABE {{ task.number }}
@@ -21,35 +23,36 @@
       </div>
     </div>
 
-    <p v-if="tasksEmpty">Hier befinden sich noch keine Aufgaben :P</p>
+    <div class="bottom-margin"></div>
+  </div>
 
-    <div class="footer" v-if="footer_visible">
-      <label class="x" v-on:click="toggleFooter">&#10005;</label>
-      <div class="settings-head">
-        <button class="button2" v-on:click="toggleSettings">Einstellungen {{ settings_visible ? "&#9660;" : "&#9650;" }}</button>
-        <button class="button1" v-on:click="generateTasks">Aufgaben generieren</button>
-      </div>
+  <div class="footer" v-if="footer_visible">
+    <label class="x" v-on:click="toggleFooter">&#10005;</label>
+    <div class="settings-head">
+      <button class="button2" v-on:click="toggleSettings">Einstellungen {{ settings_visible ? "&#9660;" : "&#9650;" }}</button>
+      <button class="button1" v-on:click="generateTasks">Aufgaben generieren</button>
+    </div>
+    <br>
+    <div class="settings-body" v-if="settings_visible">
+      <p>Anzahl generierter Aufgaben:
+        <input class="small-input" type="number" max="99" min="1" v-model="number">
+      </p>
+      <hr>
+      <p>Grad der Funktion:
+        <input class="small-input" type="number" v-bind:max="settings.grade_max" min="1" max="9" v-model="settings['grade_min']">
+        bis
+        <input class="small-input" type="number" min="1" max="9" v-bind:min="settings.grade_min" v-model="settings['grade_max']">
+      </p>
+      <hr>
+      <p>Parameter-Wertebereich:
+        <input class="medium-input" type="number" v-bind:max="settings.param_max" v-model="settings['param_min']">
+        bis
+        <input class="medium-input" type="number" v-bind:min="settings.param_min" v-model="settings['param_max']">
+      </p>
       <br>
-      <div class="settings-body" v-if="settings_visible">
-        <p>Anzahl generierter Aufgaben:
-          <input class="small-input" type="number" max="10" min="1" v-model="number">
-        </p>
-        <hr>
-        <p>Grad der Funktion:
-          <input class="small-input" type="number" v-bind:max="settings.grade_max" min="1" v-model="settings['grade_min']">
-          bis
-          <input class="small-input" type="number" max="9" v-bind:min="settings.grade_min" v-model="settings['grade_max']">
-        </p>
-        <hr>
-        <p>Parameter-Wertebereich:
-          <input class="medium-input" type="number" v-bind:max="settings.param_max" v-model="settings['param_min']">
-          bis
-          <input class="medium-input" type="number" v-bind:min="settings.param_min" v-model="settings['param_max']">
-        </p>
-        <br>
-      </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -125,6 +128,11 @@ hr {
   color:#7286D3;
 }
 
+.bottom-margin {
+  height: 400px;
+  position: static;
+}
+
 .small-input {
   width: 45px;
 }
@@ -138,10 +146,6 @@ hr {
   margin-top: -14px;
   font-size:small;
   letter-spacing: 2px;
-}
-
-.button3-div {
-  text-align: right;
 }
 
 .button1 {
@@ -213,12 +217,19 @@ hr {
   opacity: 0.8;
 }
 
+.button3-div {
+  text-align: right;
+}
+
 .footer {
   background-color: white;
-  max-width: 100%;
-  height: 380px;
-  float: bottom;
+  width: 100%;
+  height: 60%;
   box-shadow: 0 -8px 10px rgba(0, 0, 0, 0.15);
+  position: fixed;
+  top: 60%;
+  overflow: auto;
+  z-index: 10;
 }
 
 .settings-head {
@@ -252,6 +263,10 @@ hr {
 .task-body {
   padding: 40px 10%;
   text-align: left;
+}
+
+.error-no-tasks {
+  color:#8990ab;
 }
 
 .x {
